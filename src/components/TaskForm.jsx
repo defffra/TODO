@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Button from '../ui/Button'
-import axios from 'axios'
 import { BASE_URL, BASE_USER } from '../utils/consts'
 
 const TaskForm = () => {
@@ -12,10 +11,16 @@ const TaskForm = () => {
 
 	const addTask = async (e) => {
 		e.preventDefault()
-		await axios.post(`${BASE_URL}/create_task/`, {
-			title: task.title,
-			description: task.description,
-			username: task.username,
+		await fetch(`${BASE_URL}/create_task/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			  },
+			body: JSON.stringify({
+				title: task.title,
+				description: task.description,
+				username: task.username
+			})
 		})
 		history.go(0)
 	}
